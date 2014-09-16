@@ -1,0 +1,43 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: 'Titillium Web', sans-serif;
+}
+
+body {
+	background-image: url("1349019499813.jpg");
+}
+.container {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	font-style: italic;
+	font-size: xx-large;
+	color: gray;
+	background-color: white;
+	box-shadow: 0px 0px 5px #2889be;
+	padding: 20px;
+	margin-bottom: 10px;
+}
+
+.footer {
+	bottom: 0;
+	position: absolute;
+	background-color: rgba(255,255,255,0.7);
+	width: 100%;
+	text-align: center;
+	color: gray;
+	font-style: italic;
+}
+
+.value {
+	color: #2889be;
+}
+
+i {
+	font-size: 0.6em;
+	margin-left: 0.2em;
+	margin-right: 0.1em;
+}
