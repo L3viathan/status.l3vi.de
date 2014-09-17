@@ -36,13 +36,26 @@ function getData() {
 	$.getJSON(weatherAPI, {lat: location.lat, lon: location.lon},function(data){
 		setText("#city",data["name"]);
 		setText("#temp",Math.round(10*(data["main"]["temp"]-272.15))/10 + "°C");
-		setText("#weather",data["weather"][0]["description"]);
+		setText("#weather",data["weather"][0]["description"].replace("Sky is Clear","a clear sky"));
 	});
 	
 	$.getJSON(timezoneAPI + "?location=" + location.lat + "," + location.lon + "&timestamp=" + +new Date()/1000, function(data){
 		$("#time").data("offset",(data["rawOffset"] + data["dstOffset"]) * 1000);
 		refreshTime();
 	});
+	
+	$.getJSON(l3viAPI + "battery.json", function(data){
+		setText("#battery", data["battery"] + "%");
+		var timediff = +new Date() - parseInt(data["last_update"]*1000);
+		if(timediff>12000000) {
+			setText("#batterytime", "out of date");
+			console.log(timediff);
+		}
+		else {
+			setText("#batterytime", "up to date");
+		}
+	});
+	setTimeout(getData, 120000)
 }
 
 function setText(where,what) {
@@ -67,13 +80,19 @@ function jibbertemp() {
 	$("#temp").text(Math.round(Math.random()*100)/10 + "°C");
 }
 
+function jibberbattery() {
+	$("#battery").text(Math.round(Math.random()*100) + "%");
+}
+
 $(function(){
 	intervals["#status"] = setInterval("jibber('#status')", 100);
 	intervals["#address"] = setInterval("jibber('#address')", 100);
 	intervals["#mood"] = setInterval("jibber('#mood')", 100);
+	intervals["#batterytime"] = setInterval("jibber('#batterytime')", 100);
 	intervals["#time"] = setInterval("jibbertime()", 100);
 	intervals["#city"] = setInterval("jibber('#city')", 100);
 	intervals["#temp"] = setInterval("jibbertemp()", 100);
 	intervals["#weather"] = setInterval("jibber('#weather')", 100);
+	intervals["#battery"] = setInterval("jibberbattery()", 100);
 	setTimeout(getData,1000);
 });
