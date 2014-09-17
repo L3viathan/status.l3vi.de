@@ -55,6 +55,12 @@ function getData() {
 			setText("#batterytime", "up to date");
 		}
 	});
+	
+	$.getJSON(l3viAPI + "calendar.json", function(data){
+		var cal = (data["calendar"] != "") ? data["calendar"] : "unknown"
+		setText("#calendar", data["calendar"]);
+	});
+	
 	setTimeout(getData, 120000)
 }
 
@@ -94,5 +100,6 @@ $(function(){
 	intervals["#temp"] = setInterval("jibbertemp()", 100);
 	intervals["#weather"] = setInterval("jibber('#weather')", 100);
 	intervals["#battery"] = setInterval("jibberbattery()", 100);
+	intervals["#calendar"] = setInterval("jibber('#calendar')", 100);
 	setTimeout(getData,1000);
 });
