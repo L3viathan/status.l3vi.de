@@ -19,42 +19,51 @@ function refreshTime() {
 }
 
 function getData() {
-	var location = $.ajax({
+	var loc = $.ajax({
 		dataType: "json",
 		url: l3viAPI + "location.json",
 		async: false
 	}).responseJSON;
 	
-	setText("#address",location["address"]);
-	address = location["address"]
+	setText("#address",loc["address"]);
+	address = loc["address"]
 	$("#address").addClass("clickable");
 	$("#address").click(function(){
-		location.href="https://www.google.com/maps?q=" + address;
+		document.location.href="https://www.google.com/maps?q=" + address;
 	});
 	
 	$.getJSON(l3viAPI + "status.json", function(data){
 		setText("#status",data["status"]);
 		$("#status").addClass("clickable");
 		$("#status").click(function(){
-			location.href="//l3vi.de/posts/api.html";
+			document.location.href="https://play.google.com/store/apps/details?id=com.urbandroid.sleep";
 		});
 	});
 	
 	$.getJSON(l3viAPI + "mood.json", function(data){
 		setText("#mood",data["mood"]);
+		$("#mood").addClass("clickable");
+		$("#mood").click(function(){
+			document.location.href="//api.l3vi.de/posts/api.html";
+		});
 	});
 	
-	$.getJSON(weatherAPI, {lat: location.lat, lon: location.lon},function(data){
+	$.getJSON(weatherAPI, {lat: loc.lat, lon: loc.lon},function(data){
+		place=data["name"];
 		setText("#city",data["name"]);
 		setText("#temp",Math.round(10*(data["main"]["temp"]-272.15))/10 + "°C");
 		setText("#weather",data["weather"][0]["description"].replace("Sky is Clear","a clear sky"));
+		$("#weather").addClass("clickable");
+		$("#weather").click(function(){
+			document.location.href="https://google.com/search?q=" + place.replace(" ","+");
+		});
 	});
 	
-	$.getJSON(timezoneAPI + "?location=" + location.lat + "," + location.lon + "&timestamp=" + +new Date()/1000, function(data){
+	$.getJSON(timezoneAPI + "?location=" + loc.lat + "," + loc.lon + "&timestamp=" + +new Date()/1000, function(data){
 		$("#time").data("offset",(data["rawOffset"] + data["dstOffset"]) * 1000);
 		timezone = data["timeZoneName"];
 		$("#time").click(function(){
-			location.href="https://en.wikipedia.org/wiki/" + timezone.replace(" ","_");
+			document.location.href="https://en.wikipedia.org/wiki/" + timezone.replace(" ","_");
 		});
 		$("#time").addClass("clickable");
 		refreshTime();
