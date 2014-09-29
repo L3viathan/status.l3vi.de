@@ -5,6 +5,8 @@ var timezoneAPI = "https://maps.googleapis.com/maps/api/timezone/json";
 var offset = 0;
 var intervals = {};
 
+var timezone, place, address;
+
 function toFixed(n) {
 	return n<10?"0"+n:n;	
 }
@@ -24,9 +26,18 @@ function getData() {
 	}).responseJSON;
 	
 	setText("#address",location["address"]);
+	address = location["address"]
+	$("#address").addClass("clickable");
+	$("#address").click(function(){
+		location.href="https://www.google.com/maps?q=" + address;
+	});
 	
 	$.getJSON(l3viAPI + "status.json", function(data){
 		setText("#status",data["status"]);
+		$("#status").addClass("clickable");
+		$("#status").click(function(){
+			location.href="//l3vi.de/posts/api.html";
+		});
 	});
 	
 	$.getJSON(l3viAPI + "mood.json", function(data){
@@ -41,6 +52,11 @@ function getData() {
 	
 	$.getJSON(timezoneAPI + "?location=" + location.lat + "," + location.lon + "&timestamp=" + +new Date()/1000, function(data){
 		$("#time").data("offset",(data["rawOffset"] + data["dstOffset"]) * 1000);
+		timezone = data["timeZoneName"];
+		$("#time").click(function(){
+			location.href="https://en.wikipedia.org/wiki/" + timezone.replace(" ","_");
+		});
+		$("#time").addClass("clickable");
 		refreshTime();
 	});
 	
