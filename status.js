@@ -34,7 +34,7 @@ function getData() {
 	
 	$.getJSON(l3viAPI + "status.json", function(data){
 		setText("#status",data["status"]);
-		var diff = parseInt((+new Date() - data["last_update"])/360000);
+		var diff = parseInt((+new Date()/1000 - data["last_update"])/3600) +1;
 		setText("#statustime",diff + " hours");
 		$("#status").addClass("clickable");
 		$("#status").click(function(){
@@ -119,6 +119,7 @@ function jibberbattery() {
 
 $(function(){
 	intervals["#status"] = setInterval("jibber('#status')", 100);
+	intervals["#statustime"] = setInterval("jibber('#statustime')", 100);
 	intervals["#address"] = setInterval("jibber('#address')", 100);
 	intervals["#mood"] = setInterval("jibber('#mood')", 100);
 	intervals["#batterytime"] = setInterval("jibber('#batterytime')", 100);
