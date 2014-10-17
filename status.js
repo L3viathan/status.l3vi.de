@@ -34,6 +34,8 @@ function getData() {
 	
 	$.getJSON(l3viAPI + "status.json", function(data){
 		setText("#status",data["status"]);
+		var diff = parseInt((+new Date() - data["last_update"])/360000);
+		setText("#statustime",diff + " hours");
 		$("#status").addClass("clickable");
 		$("#status").click(function(){
 			document.location.href="https://play.google.com/store/apps/details?id=com.urbandroid.sleep";
