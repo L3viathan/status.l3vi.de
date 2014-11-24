@@ -26,6 +26,7 @@ function getData() {
 	}).responseJSON;
 	
 	setText("#address",loc["address"]);
+        setText("#city",loc["town"]);
 	address = loc["address"]
 	$("#address").addClass("clickable");
 	$("#address").click(function(){
@@ -52,7 +53,7 @@ function getData() {
 	
 	$.getJSON(weatherAPI, {lat: loc.lat, lon: loc.lon},function(data){
 		place=data["name"];
-		setText("#city",data["name"]);
+		//setText("#city",data["name"]);
 		setText("#temp",Math.round(10*(data["main"]["temp"]-272.15))/10 + "°C");
 		setText("#weather",data["weather"][0]["description"].replace("Sky is Clear","a clear sky"));
 		$("#weather").addClass("clickable");
